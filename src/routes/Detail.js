@@ -27,6 +27,7 @@ const Container = styled.div`
 
 const Column = styled.div`
   margin-left: 10px;
+  width: 50%;
 `;
 
 const Title = styled.h1`
@@ -47,6 +48,9 @@ const Poster = styled.div`
   width: 25%;
   height: 60%;
   background-color: transparent;
+  background-image: url(${props => props.bg});
+  background-size: cover;
+  background-position: center center;
 `;
 
 const Detail = () => {
@@ -54,17 +58,20 @@ const Detail = () => {
     const { loading, data } = useQuery(GET_MOVIE, {
         variables: { id }
     });
-    if(loading) {
-        return "Loading...";
-    }
     return (
         <Container>
             <Column>
-            <Title>{data.Movie.title}</Title>
-            <Subtitle>English · 4.5</Subtitle>
-            <Description>lorem ipsum lalalla </Description>
+              <Title>{loading ? "Loading..." : data.Movie.title}</Title>
+              {
+                !loading && data.Movie && (
+                  <>
+                    <Subtitle>{data.Movie.language} · {data.Movie.rating}</Subtitle>
+                    <Description>{data.Movie.description_intro}</Description>
+                  </>
+                )
+              }
             </Column>
-            <Poster></Poster>
+            <Poster bg={data && data.Movie ? data.Movie.medium_cover_image : ""}></Poster>
         </Container>
     );
 };
