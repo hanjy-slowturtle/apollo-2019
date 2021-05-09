@@ -12,6 +12,10 @@ const GET_MOVIE = gql`
             rating
             description_intro
         }
+        Suggestions(id: $id) {
+          id
+          medium_cover_image
+        }
     }
 `;
 
@@ -58,20 +62,18 @@ const Detail = () => {
     const { loading, data } = useQuery(GET_MOVIE, {
         variables: { id }
     });
+    console.log(data);
     return (
         <Container>
             <Column>
               <Title>{loading ? "Loading..." : data.Movie.title}</Title>
-              {
-                !loading && data.Movie && (
-                  <>
-                    <Subtitle>{data.Movie.language} · {data.Movie.rating}</Subtitle>
-                    <Description>{data.Movie.description_intro}</Description>
-                  </>
-                )
-              }
+              <Subtitle>{data?.Movie?.language} · {data?.Movie?.rating}</Subtitle>
+              <Description>{data?.Movie?.description_intro}</Description>
             </Column>
-            <Poster bg={data && data.Movie ? data.Movie.medium_cover_image : ""}></Poster>
+            <Poster bg={data?.Movie?.medium_cover_image}></Poster>
+            {data?.Suggestions?.map((s, idx) => {
+              return <div key={idx}>{s.id}</div>;
+            })}
         </Container>
     );
 };

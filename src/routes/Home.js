@@ -65,17 +65,13 @@ const Home = () => {
                 <Subtitle>I love GraphQL</Subtitle>
             </Header>
             {loading && <Loading>Loading...</Loading>}
+            <Movies>
             {
-                !loading && data.Movies && (
-                    <Movies>
-                    {
-                        data.Movies.map(m => (
-                            <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
-                        ))
-                    }
-                    </Movies>
-                )
+                data?.Movies?.map(m => (
+                    <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+                ))
             }
+            </Movies>
         </Container>
     );
 };
