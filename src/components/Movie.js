@@ -17,12 +17,15 @@ const Poster = styled.div`
   background-position: center center;
 `;
 
-const Movie = ({ id, bg }) => (
-  <Container>
-    <Link to={`/${id}`}>
-      <Poster bg={bg} />
-    </Link>
-  </Container>
+const Movie = ({ id, bg, isLiked }) => (
+  <>
+    <Container>
+      <Link to={`/${id}`}>
+        <Poster bg={bg} />
+      </Link>
+    </Container>
+    <button>{isLiked ? "Unlike" : "Like"}</button>
+  </>
 );
 
 export default Movie;
